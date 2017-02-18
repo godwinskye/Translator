@@ -4,45 +4,16 @@
 #include <string>
 #include "Parser/Parser.h"
 #include "Token/Token.h"
+#include "CodeGenerator/CodeGenerator.h"
 
 int main() {
-	std::string contents;
-	std::string totalcontents;
-	std::ifstream inputfile("input.c");
+	const static std::string inputfile("input.c");
+	const static std::string outputfile("output.cpp");
 
-	if (inputfile.is_open()) {
-		while (std::getline(inputfile, contents)) {
-			totalcontents = totalcontents + contents + "\n";
-		}
-	}
-	else {
-		try {
-			throw std::runtime_error("input.c file not found");
-		}
-		catch (std::runtime_error &error) {
-			std::cerr << error.what() << std::endl;
-			throw;
-		}
-	}
+	Parser parser;
+	parser.Parse(inputfile);
 
-	//Output file
-	std::ofstream outputfile;
-	outputfile.open("output.cpp");
-	outputfile << totalcontents;
-	outputfile.close();
-
-	std::cout << contents.max_size() << std::endl;
-	system("pause");
+	CodeGenerator Generator;
+	Generator.Generate(parser.getContainer(), outputfile);
 	return 0;
 }
-
-/*
-void trueMain() {
-	std::string inputfile("input.c");
-	Parser parser = parser.Parse(inputfile);
-
-	std::string outputfile("output.cpp");
-	CodeGenerator generator = generator.generate(parser.getContainer, outputfile);
-	return;
-}
-*/

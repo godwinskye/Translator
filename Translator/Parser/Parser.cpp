@@ -35,6 +35,9 @@ void Parser::appendSubsequentValidCharacters(ALTER std::string &temporary) {
 			temporary = temporary + arbchar;
 			break;
 		}
+		if (!inputstream.good()) {
+			break;
+		}
 		temporary = temporary + arbchar;
 	}
 }
