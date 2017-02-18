@@ -12,6 +12,7 @@ public:
 	void MakeAllTokens();
 	void MakeToken(std::string &temporary);
 	void appendSubsequentValidCharacters(ALTER std::string &temporary);
+	void appendStringCharacters(ALTER std::string &temporary);
 
 	std::vector<Token> getContainer();
 

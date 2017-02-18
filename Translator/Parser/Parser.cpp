@@ -1,4 +1,5 @@
 #include "Parser.h"
+#include "../Token/PrintToken.h"
 #include <iostream>
 
 void Parser::Parse(std::string filename) {
@@ -23,6 +24,14 @@ void Parser::MakeAllTokens() {
 
 void Parser::MakeToken(ALTER std::string &temporary) {		//temporary contains first character
 	appendSubsequentValidCharacters(temporary);
+	if (temporary.substr(1, 6) == "printf") {
+		PrintToken token(temporary);
+		Container.push_back(token);
+		return;
+	}
+	if (temporary == "<stdio.h>\n") {
+		temporary = "<iostream>\n";
+	}
 	Token token(temporary);
 	Container.push_back(token);
 }
@@ -31,6 +40,11 @@ void Parser::MakeToken(ALTER std::string &temporary) {		//temporary contains fir
 void Parser::appendSubsequentValidCharacters(ALTER std::string &temporary) {
 	while (inputstream.good()) {
 		arbchar = inputstream.get();
+		if (arbchar == '"') {
+			temporary = temporary + arbchar;
+			appendStringCharacters(ALTER temporary);
+			continue;
+		}
 		if (arbchar == '\n' || arbchar == ' ') {
 			temporary = temporary + arbchar;
 			break;
@@ -39,6 +53,16 @@ void Parser::appendSubsequentValidCharacters(ALTER std::string &temporary) {
 			break;
 		}
 		temporary = temporary + arbchar;
+	}
+}
+
+void Parser::appendStringCharacters(ALTER std::string & temporary) {
+	while (inputstream.good()) {
+		arbchar = inputstream.get();
+		temporary = temporary + arbchar;
+		if (arbchar == '"') {
+			break;
+		}
 	}
 }
 
