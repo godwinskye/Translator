@@ -2,6 +2,8 @@
 #include <fstream>
 #include <stdexcept>
 #include <string>
+#include "Parser/Parser.h"
+#include "Token/Token.h"
 
 int main() {
 	std::string contents;
@@ -33,3 +35,14 @@ int main() {
 	system("pause");
 	return 0;
 }
+
+/*
+void trueMain() {
+	std::string inputfile("input.c");
+	Parser parser = parser.Parse(inputfile);
+
+	std::string outputfile("output.cpp");
+	CodeGenerator generator = generator.generate(parser.getContainer, outputfile);
+	return;
+}
+*/
